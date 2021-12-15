@@ -13,3 +13,10 @@ function getDbConn(){
 
     return $db;
 }
+// Viewejä ja muita hakuja varten, joissa käyttäjä ei syötä hakuehtoa itse
+function selectAsJson(object $db, string $sql): void {
+    $query = $db->query($sql);                      //query funktiolla tehdään kysely kantaan
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);  // kannasta otetaan saatu haku 
+    header('HTTP/1.1 200 OK');
+    echo json_encode($results);                     // ja muutetaan JSON muotoon
+}
