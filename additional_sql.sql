@@ -26,3 +26,19 @@ INNER JOIN aliases
 ON titles.title_id = aliases.title_id
 WHERE region = "GB"
 LIMIT 10;
+
+/* Procedure, jolla saadaan elokuvia arvioinnin mukaan */
+
+DELIMITER $$
+CREATE PROCEDURE TitleByRating(
+	IN ratingAmount DOUBLE(2,2)
+)
+	BEGIN
+        SELECT DISTINCT title, average_rating
+        FROM aliases INNER JOIN title_ratings
+        ON aliases.title_id = title_ratings.title_id
+        WHERE average_rating > ratingAmount
+        ORDER BY average_rating
+        LIMIT 10;
+	END $$
+DELIMITER ;
